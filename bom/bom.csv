@@ -2,7 +2,7 @@ Reference,Value,Quantity,Description,Manufacturer,Part Number
 U1,ESP32-WROOM-32,1,WiFi/BT Module,Espressif,ESP32-WROOM-32
 U2,ACS712,1,Hall Effect Current Sensor,Allegro,ACS712ELCTR-20A-T
 U3,LM2596,1,Step-Down Voltage Regulator,Texas Instruments,LM2596S-5.0
-Q1,IRF540N,2,N-Channel MOSFET,Infineon,IRF540NPBF
+Q1-Q2,IRF540N,2,N-Channel MOSFET,Infineon,IRF540NPBF
 R1-R4,10k,4,Resistor 1/4W,Yageo,CFR-25JB-52-10K
 R5-R6,220,2,Resistor 1/4W,Yageo,CFR-25JB-52-220R
 C1,100uF,1,Electrolytic Capacitor,Nichicon,UPW1E101MPD

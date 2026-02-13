@@ -20,7 +20,7 @@ The actuator control circuit uses N-channel MOSFETs to provide high-current swit
 - **Gate Charge**: 71nC
 
 ### Gate Drive Circuit
-Each MOSFET gate is driven through a 10kΩ pull-down resistor (R1-R2) to ensure the MOSFET remains off when the ESP32 GPIO is in high-impedance state (e.g., during boot).
+Each MOSFET gate is driven through a 10kΩ pull-down resistor (R3-R4) to ensure the MOSFET remains off when the ESP32 GPIO is in high-impedance state (e.g., during boot).
 
 ```
 GPIO12/13 ----[10kΩ]---- Gate
@@ -51,7 +51,7 @@ GPIO12/13 ----[10kΩ]---- Gate
 1. **IRF540N selection**: Provides generous headroom for current handling and low on-resistance for efficiency
 2. **Low-side switching**: Simpler gate drive circuit, compatible with 3.3V logic from ESP32
 3. **Direct GPIO drive**: V_GS(th) of IRF540N is low enough for 3.3V GPIO to reliably turn on the MOSFET
-4. **10kΩ pull-downs**: Prevent accidental activation while keeping minimal load on GPIO pins
+4. **10kΩ pull-downs (R3-R4)**: Prevent accidental activation while keeping minimal load on GPIO pins
 
 ## Future Improvements
 - Add flyback diodes (e.g., 1N4007) across inductive loads
