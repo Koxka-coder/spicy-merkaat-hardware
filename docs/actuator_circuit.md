@@ -15,9 +15,13 @@ The actuator control circuit uses N-channel MOSFETs to provide high-current swit
 #### IRF540N Specifications
 - **V_DS**: 100V
 - **I_D**: 33A continuous
-- **R_DS(on)**: 44mΩ @ V_GS = 10V
+- **R_DS(on)**: 44mΩ @ V_GS = 10V, ~100-200mΩ @ V_GS = 3.3V (estimated)
 - **V_GS(th)**: 2-4V
 - **Gate Charge**: 71nC
+
+**Note on 3.3V Operation**: When driven by 3.3V logic, the IRF540N will have higher on-resistance than the specified 44mΩ (which is at V_GS=10V). At 3.3V gate voltage, the on-resistance is typically 2-4x higher, estimated at 100-200mΩ. This results in:
+- Power dissipation at 10A: P = I²R = 100 × 0.15 = 15W (significant heat)
+- For high-current applications (>10A), consider using logic-level MOSFETs (e.g., IRLZ44N) or adding a gate driver circuit
 
 ### Gate Drive Circuit
 Each MOSFET gate is connected to ground through a 10kΩ pull-down resistor (R3-R4) to ensure the MOSFET remains off when the ESP32 GPIO is in high-impedance state (e.g., during boot or reset).
@@ -50,12 +54,19 @@ GPIO12/13 --------+------- Gate (Q1/Q2)
 - **Logic Low (0V)**: MOSFET OFF, load inactive
 
 ## Design Decisions
-1. **IRF540N selection**: Provides generous headroom for current handling and low on-resistance for efficiency
+1. **IRF540N selection**: Provides generous headroom for current handling (33A rating). However, for optimal efficiency at currents >5A with 3.3V logic, consider logic-level alternatives like IRLZ44N with lower R_DS(on) at V_GS=3.3V
 2. **Low-side switching**: Simpler gate drive circuit, compatible with 3.3V logic from ESP32
-3. **Direct GPIO drive**: V_GS(th) of IRF540N is low enough for 3.3V GPIO to reliably turn on the MOSFET
+3. **Direct GPIO drive**: V_GS(th) of IRF540N (2-4V) allows the MOSFET to turn on with 3.3V GPIO, though with higher on-resistance than at 10V
 4. **10kΩ pull-downs (R3-R4)**: Prevent accidental activation while keeping minimal load on GPIO pins
+
+## Performance Considerations
+- **Recommended load range**: 0-5A per channel for acceptable efficiency with 3.3V drive
+- **For >5A loads**: Consider upgrading to logic-level MOSFETs (IRLZ44N, IRLB8721) or adding gate driver
+- **Thermal management**: Add heatsink for continuous operation above 3A per channel
 
 ## Future Improvements
 - Add flyback diodes (e.g., 1N4007) across inductive loads
-- Consider gate driver IC for faster switching if PWM control is needed
+- Upgrade to logic-level MOSFETs (IRLZ44N, IRLB8721) for better efficiency at high currents
+- Consider gate driver IC (e.g., TC4427) for faster switching if PWM control is needed
 - Add current limiting or foldback protection circuit
+- Add heatsinks or improve thermal management for continuous high-current operation

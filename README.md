@@ -130,6 +130,8 @@ See [bom/bom.csv](bom/bom.csv) for the complete parts list with manufacturer par
 
 ## Future Enhancements
 - Add flyback diodes for inductive load protection
+- Upgrade to logic-level MOSFETs for better efficiency at high currents
+- Add voltage monitoring protection (clamping diode for ADC input)
 - Implement current limiting/foldback protection
 - Add temperature sensor for thermal monitoring
 - PCB layout optimization for EMI reduction
