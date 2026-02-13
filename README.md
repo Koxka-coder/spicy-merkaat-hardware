@@ -26,8 +26,8 @@ This hardware project implements a versatile field controller node designed for 
 - **Filtering**: 100uF electrolytic + ceramic capacitors for stable power delivery
 
 ### Actuator Control
-- **2x IRF540N MOSFETs**: N-channel transistors for high-current switching (100V/33A rated)
-- **Pull-down Resistors**: Gate protection and default-off state
+- **2x IRF540N MOSFETs**: N-channel transistors for high-current switching (100V/33A rated, ~150mΩ R_DS(on) at 3.3V gate drive)
+- **Pull-down Resistors**: Gate protection and default-off state during boot/reset
 - **Direct GPIO Drive**: Compatible with 3.3V logic levels
 
 ### Sensing & Monitoring
@@ -57,10 +57,10 @@ This hardware project implements a versatile field controller node designed for 
 
 **Rationale**:
 - IRF540N gate threshold (2-4V) allows reliable turn-on with 3.3V GPIO
-- Low R_DS(on) (44mΩ) ensures efficient operation with minimal heat generation
+- At 3.3V gate voltage, R_DS(on) is ~150mΩ, which is acceptable for loads up to 5A
 - Generous current rating (33A) provides safety margin for 20A loads
 - Low-side switching simplifies gate drive circuit (no level shifting needed)
-- 10kΩ pull-downs prevent floating gates during boot/reset
+- 10kΩ pull-downs prevent floating gates during boot/reset, ensuring safe startup
 
 **Trade-offs**: Low-side switching means load is not directly grounded, but suitable for most applications
 

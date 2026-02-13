@@ -23,16 +23,16 @@
 - **GPIO36**: Temperature Sensor (optional)
 
 ### Voltage Monitoring Circuit
-A resistor divider (R1=22kΩ, R2=10kΩ) scales the input voltage to the ESP32's ADC range:
+A resistor divider (R1=33kΩ, R2=10kΩ) scales the input voltage to the ESP32's ADC range:
 - Input voltage range: 7-12V
-- Divider ratio: R2/(R1+R2) = 10k/32k = 0.3125
-- ADC input voltage: 2.2-3.75V (safe for ESP32 3.3V max)
+- Divider ratio: R2/(R1+R2) = 10k/43k = 0.233
+- ADC input voltage: 1.63-2.79V (safe for ESP32 3.3V max)
 
-Voltage calculation: V_ADC = V_IN × (R2/(R1+R2)) = V_IN × 0.3125
-- At 7V input: 2.19V at ADC
-- At 12V input: 3.75V at ADC (slightly above 3.3V nominal, add clamping diode recommended)
+Voltage calculation: V_ADC = V_IN × (R2/(R1+R2)) = V_IN × 0.233
+- At 7V input: 1.63V at ADC
+- At 12V input: 2.79V at ADC (safe margin below 3.3V maximum)
 
-**Recommended improvement**: Add a 3.3V Zener diode or Schottky diode to VDD for overvoltage protection.
+This configuration ensures the ADC input remains well below the ESP32's absolute maximum rating of 3.6V, even with voltage spikes.
 
 #### Communication
 - **RX (GPIO3)**: UART Receive

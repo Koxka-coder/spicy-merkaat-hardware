@@ -19,8 +19,8 @@ The actuator control circuit uses N-channel MOSFETs to provide high-current swit
 - **V_GS(th)**: 2-4V
 - **Gate Charge**: 71nC
 
-**Note on 3.3V Operation**: When driven by 3.3V logic, the IRF540N will have higher on-resistance than the specified 44mΩ (which is at V_GS=10V). At 3.3V gate voltage, the on-resistance is typically 2-4x higher, estimated at 100-200mΩ. This results in:
-- Power dissipation at 10A: P = I²R = 100 × 0.15 = 15W (significant heat)
+**Note on 3.3V Operation**: When driven by 3.3V logic, the IRF540N will have higher on-resistance than the specified 44mΩ (which is at V_GS=10V). At 3.3V gate voltage, the on-resistance is typically 2-4x higher, estimated at 100-200mΩ (using 150mΩ as typical). This results in:
+- Power dissipation at 10A: P = I²R = 100 × 0.15 = 15W (significant heat generation)
 - For high-current applications (>10A), consider using logic-level MOSFETs (e.g., IRLZ44N) or adding a gate driver circuit
 
 ### Gate Drive Circuit
@@ -54,10 +54,10 @@ GPIO12/13 --------+------- Gate (Q1/Q2)
 - **Logic Low (0V)**: MOSFET OFF, load inactive
 
 ## Design Decisions
-1. **IRF540N selection**: Provides generous headroom for current handling (33A rating). However, for optimal efficiency at currents >5A with 3.3V logic, consider logic-level alternatives like IRLZ44N with lower R_DS(on) at V_GS=3.3V
+1. **IRF540N selection**: Provides generous headroom for current handling (33A rating). Note: At 3.3V gate drive, on-resistance is ~150mΩ (vs 44mΩ at 10V), so efficiency is reduced at high currents. For optimal efficiency at currents >5A, consider logic-level alternatives like IRLZ44N
 2. **Low-side switching**: Simpler gate drive circuit, compatible with 3.3V logic from ESP32
 3. **Direct GPIO drive**: V_GS(th) of IRF540N (2-4V) allows the MOSFET to turn on with 3.3V GPIO, though with higher on-resistance than at 10V
-4. **10kΩ pull-downs (R3-R4)**: Prevent accidental activation while keeping minimal load on GPIO pins
+4. **10kΩ pull-downs (R3-R4)**: Ensure MOSFETs remain off during ESP32 boot/reset when GPIO pins are in high-impedance state, preventing unintended actuator activation during system startup
 
 ## Performance Considerations
 - **Recommended load range**: 0-5A per channel for acceptable efficiency with 3.3V drive
