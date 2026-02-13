@@ -36,10 +36,17 @@ The power system is designed to provide stable voltage rails for the ESP32 modul
 | Actuator MOSFETs (logic) | 5V | 5mA | 10mA |
 | **Total** | - | ~125mA | ~335mA |
 
-## Power Consumption Estimates
+## Power Consumption Estimates (5V Rail)
 - Idle (WiFi connected): ~100mA @ 5V = 0.5W
 - Active (WiFi + sensors): ~150mA @ 5V = 0.75W
 - Peak (WiFi TX + actuators): ~300mA @ 5V = 1.5W
+
+**Total Input Power** (including LM2596 efficiency):
+- Idle: 0.5W / 0.85 = ~0.6W from input
+- Active: 0.75W / 0.85 = ~0.9W from input  
+- Peak: 1.5W / 0.85 = ~1.8W from input
+
+*Note: These estimates do not include actuator load power consumption, which will vary based on connected devices.*
 
 ## Design Decisions
 1. **LM2596 Selection**: Chosen for high efficiency and integrated design, reducing external component count

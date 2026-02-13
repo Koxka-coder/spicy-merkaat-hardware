@@ -20,12 +20,14 @@ The actuator control circuit uses N-channel MOSFETs to provide high-current swit
 - **Gate Charge**: 71nC
 
 ### Gate Drive Circuit
-Each MOSFET gate is driven through a 10kΩ pull-down resistor (R3-R4) to ensure the MOSFET remains off when the ESP32 GPIO is in high-impedance state (e.g., during boot).
+Each MOSFET gate is connected to ground through a 10kΩ pull-down resistor (R3-R4) to ensure the MOSFET remains off when the ESP32 GPIO is in high-impedance state (e.g., during boot or reset).
 
 ```
-GPIO12/13 ----[10kΩ]---- Gate
-                |
-               GND
+GPIO12/13 --------+------- Gate (Q1/Q2)
+                  |
+                [10kΩ]  R3/R4 (pull-down)
+                  |
+                 GND
 ```
 
 ### Protection Features

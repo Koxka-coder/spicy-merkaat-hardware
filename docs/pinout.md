@@ -19,8 +19,14 @@
 
 #### Analog Inputs
 - **GPIO34**: Current Sensor Input (ACS712 output)
-- **GPIO35**: Voltage Monitor
+- **GPIO35**: Voltage Monitor (via R1-R2 divider from VIN)
 - **GPIO36**: Temperature Sensor (optional)
+
+### Voltage Monitoring Circuit
+A resistor divider (R1-R2, both 10kΩ) scales the input voltage to the ESP32's ADC range:
+- Input voltage range: 7-12V
+- Divider ratio: 1:2 (two equal resistors)
+- ADC input range: 3.5-6V → scaled to 0-3.3V via ESP32 input protection
 
 #### Communication
 - **RX (GPIO3)**: UART Receive
